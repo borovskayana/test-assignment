@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voodoo Ecom</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              yellow_white: "#FCF7E6",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/css">
+      .pagination-number:hover,
+      .pagination-button:not(.disabled):hover {
+        background: #fff;
+      }
+      .pagination-number.active {
+        color: #fff;
+        background: black;
+        border-radius: 50%;
+      }
+    </style>
+
+  </head>
+  <body class="bg-yellow_white flex flex-col h-screen justify-between">
+    <header>
+      <div id="totali"></div>
+      <nav
+        class="flex items-center justify-between flex-wrap bg-yellow_white border-b-2 border-b-gray-900 p-6"
+      >
+        <div
+          class="flex items-center flex-shrink-0 text-white ml-0 mr-0 lg:mr-6 lg:ml-10"
+        >
+          <button onclick="sidebar()">
+            <img class="w-24 md:w-32 lg:w-48 items-center" src="./img/logo.svg" />
+          </button>
+        </div>
+
+        <div class="block">
+          <button
+            class="items-center inline-block items-end rounded text-teal-200 hover:text-white hover:border-white"
+            onclick="sidebar()"
+          >
+            <img
+              class="items-center fill-current w-4 h-4 lg:h-5 lg:w-5 lg:mr-12 mr-6"
+              src="./img/box.svg"
+            />
+          </button>
+
+          <div
+            class="bg-gray-900 fixed top-0 right-0 z-40 w-0 h-full transition-all duration-500 transform -translate-x-0 shadow-lg peer-checked:translate-x-full z-50"
+            id="box_side"
+          >
+            <div class="px-6 py-4 bg-gray-900">
+              <div class="flex inline-block border-b border-white">
+                <div class="fixed top-0 right-0 pt-5 pr-2">
+                  <button onclick="sidebar()">
+                    <img src="./img/close-line.svg" />
+                  </button>
+                </div>
+                <h2 class="text-2xl text-white pb-5">Shopping cart</h2>
+              </div>
+              <div class="h-[32rem] overflow-auto">
+                <div id="its" class="text-white"></div>
+              </div>
+              <div
+                class="flex inline-block w-full justify-between border-t border-white pt-6 pb-4"
+              >
+                <h4 class="text-white">TOTAL</h4>
+                <div id="total" class="text-white text-end"></div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="items-center inline-block items-end px-5 py-2 bg-gray-900 rounded text-white hover:text-white hover:border-white mr-0 lg:mr-10"
+          >
+            Sign-up
+          </button>
+        </div>
+      </nav>
+    </header>
+    <main class="mb-auto">
+      <div id="back_info_hidden">
+        <div class="bg-yellow_white mr-8 ml-8 lg:mr-20 lg:ml-20">
+          <div
+            class="mx-auto max-w-2xl px-1 py-0 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"
+          >
+            <div
+              class="bg-gray-900 rounded-b text-white px-4 py-3 mb-12"
+              id="hiddeninfo"
+            >
+              <div class="flex gap-x-1">
+                <div class="py-1"><img src="./img/alert-circle.svg" /></div>
+                <div class="flex flex-wrap items-center gap-x-12">
+                  <div cclass="font-semibold text-sm lg:text-lg">
+                    <h4>ALPHA</h4>
+                  </div>
+                  <div>
+                    <p class="hidden lg:flex">
+                      Important info regarding our service
+                    </p>
+                    <p class="flex text-sm lg:hidden">Important info</p>
+                  </div>
+                </div>
+                <div class="flex flex-1 justify-end items-center">
+                  <button
+                    type="button"
+                    class="-m-3 p-3 focus-visible:outline-offset-[-4px]"
+                    onclick="info()"
+                  >
+                    <span class="sr-only">Open</span>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6 9L12 15L18 9"
+                        stroke="#FCF7E6"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="products_items"
+              class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="pagination-container flex items-center bottom-0 justify-center pt-4 pb-4 w-[100% - 2rem]"
+        id="pagination-container"
+      >
+        <button
+          class="pagination-button bg-transparent m-2 h-[2.5rem] w-[2.5rem] cursor-pointer"
+          id="prev-button"
+          aria-label="Previous page"
+          title="Previous page"
+        >
+          &lt;
+        </button>
+
+        <div id="pagination-numbers"></div>
+
+        <button
+          class="pagination-button bg-transparent m-2 h-[2.5rem] w-[2.5rem] cursor-pointer"
+          id="next-button"
+          aria-label="Next page"
+          title="Next page"
+        >
+          &gt;
+        </button>
+      </div>
+    </main>
+
+    <footer class="bg-white" id="footer">
+      <div id="back_footer_hidden">
+        <div class="mx-auto w-full max-w-screen-xl">
+          <div
+            class="grid grid-cols-1 gap-8 px-2 py-4 lg:py-8 md:grid-cols-4 sm:grid-cols-1 ml-32 mr-32"
+          >
+            <div class="">
+              <img
+                src="./img/logomark.svg"
+                alt="Logomark"
+                class="pt-10 hidden lg:block md:block"
+              />
+            </div>
+            <div>
+              <ul class="text-gray-900 font-medium text-sm">
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">FAQ</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">RETURNS</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">CONTACT</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul class="text-gray-900 font-medium text-sm">
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">TERMS & CONDITIONS</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">PRIVACY POLICY</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">COOKIE POLICY</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">COOKIE SETTINGS</a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <ul class="text-gray-900 font-medium text-sm">
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">ABOUT SECOND CHANCE</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">CAREER</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">FACEBOOK</a>
+                </li>
+                <li class="mb-4">
+                  <a href="#" class="hover:underline">INSTAGRAM</a>
+                </li>
+              </ul>
+            </div>
+            <div
+              class="visible lg:hidden md:hidden xl:hidden 2xl:hidden items-center justify-items-center"
+            >
+              <img src="./img/logomark.svg" alt="Logomark" class="pt-10" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="index.js" async defer></script>
+  </body>
+</html>
