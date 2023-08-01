@@ -296,17 +296,7 @@ function addToBasket(id, titleid, priceid, imageid, event) {
       (x) => cartPrice.indexOf(x) !== cartPrice.lastIndexOf(x)
     );
   }
-  function b() {
-    let m = Number(
-      cartPrice
-        .splice(
-          cartPrice.some((x) => cartPrice.indexOf(x)),
-          1
-        )
-        .join()
-    );
-    return m;
-  }
+
 
   if (hasDuplicates(cartId) == true) {
     cartId = [...new Set(cartId)];
@@ -319,7 +309,7 @@ function addToBasket(id, titleid, priceid, imageid, event) {
     <div id="${pointbox.id}"  class="flex inline-block gap-x-6">
     <div class=" flex inline-block w-full justify-between mt-6">
     <div class=" flex inline-block w-full gap-x-6">
-    <div><img src="${pointbox.image}" width="74"></div>
+    <img src="${pointbox.image}" width="74">
     <div>
     <h3 id="title" class="text-sm">${pointbox.title}<h3/>
     <p id="${pointbox.price}"  class="text-sm">${pointbox.price} KR.<p/>
@@ -328,7 +318,8 @@ function addToBasket(id, titleid, priceid, imageid, event) {
     
 
  
-    <button onclick="b(${pointbox.id})"><img src="./img/delete-bin-6-line.svg"></button>
+    <button onclick="b(${pointbox.id}, (cartId.findIndex(element => element == ${pointbox.id})), (cartPrice.findIndex(element => element == ${pointbox.price})))"><img src="./img/delete-bin-6-line.svg"></button>
+ 
     </div>
   </div>`;
   }
@@ -338,22 +329,31 @@ function addToBasket(id, titleid, priceid, imageid, event) {
   totalPrice = cartPrice.map((i) => (x += i), (x = 0)).reverse()[0];
 
   total.innerHTML = Number(totalPrice.toFixed(2));
+
+console.log(cartPrice.findIndex(element => element == `${pointbox.price}`));
+
 }
 
-function b(t) {
+
+
+function b(v, t, d) {
+
   let m = Number(
     cartPrice
       .splice(
-        cartPrice.some((x) => cartPrice.indexOf(x)),
-        1
+        d, 1
       )
       .join()
   );
+
   totalPrice = totalPrice - m;
   total.innerHTML = Number(totalPrice.toFixed(2));
-  document.getElementById(t).remove();
+  document.getElementById(v).remove();
   cartId.splice(
-    cartId.some((x) => cartId.indexOf(x)),
-    1
+   t, 1
   );
+  console.log(d);
+
+ 
+
 }
