@@ -337,7 +337,7 @@ function addToBasket(id, titleid, priceid, imageid, event) {
 
   totalPrice = cartPrice.map((i) => (x += i), (x = 0)).reverse()[0];
 
-  total.innerHTML = totalPrice;
+  total.innerHTML = Number(totalPrice.toFixed(2));
 }
 
 function b(t) {
