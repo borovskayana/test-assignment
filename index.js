@@ -154,12 +154,6 @@ async function renderProdcuts() {
   const prevButton = document.getElementById("prev-button");
 
   /* update content */
-  window.addEventListener("resize", handleResize);
-
-function handleResize(){
-  location.reload();
-
-  }
 
   let paginationLimit;
   if (window.matchMedia("(min-width: 600px)").matches) {
