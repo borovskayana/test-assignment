@@ -1,4 +1,4 @@
-const ul = document.getElementById("products_items"),
+const wrapper_list = document.getElementById("products_items"),
   url = "https://voodoo-sandbox.myshopify.com/products.json?limit=12";
 var its = document.getElementById("its");
 
@@ -105,7 +105,7 @@ async function renderProdcuts() {
   subarray.forEach(function (item) {
     let point = { id: item[3], x: item[0], y: item[1], z: item[2] };
 
-    return (ul.innerHTML += `
+    return (wrapper_list.innerHTML += `
     <section>
         <div class="group relative" id="paginated-list">
         <div class="aspect-h-1 aspect-w-1 h-auto max-w-xl rounded bg-gray-200 lg:aspect-none group-hover:opacity-75">
@@ -141,15 +141,10 @@ async function renderProdcuts() {
         `);
   });
 
-  function sss() {}
-  sss();
-
   /* PAGINATION */
 
   const paginationNumbers = document.getElementById("pagination-numbers");
-
-  const listItems = ul.querySelectorAll("section");
-
+  const listItems = wrapper_list.querySelectorAll("section");
   const nextButton = document.getElementById("next-button");
   const prevButton = document.getElementById("prev-button");
 
@@ -262,13 +257,12 @@ renderProdcuts();
 let cart = [];
 let totalPrice;
 let totalPrices;
+
 function addToBasket(id, titleid, priceid, imageid, event) {
   event.preventDefault();
   cart.push({ id, titleid, priceid, imageid });
-
   cartId.push(id);
   cartPrice.push(priceid);
-
   let sides = [];
   cart.forEach((carts) => {
     for (let value in carts) {
@@ -297,7 +291,6 @@ function addToBasket(id, titleid, priceid, imageid, event) {
     );
   }
 
-
   if (hasDuplicates(cartId) == true) {
     cartId = [...new Set(cartId)];
     cartPrice = [...new Set(cartPrice)];
@@ -306,54 +299,31 @@ function addToBasket(id, titleid, priceid, imageid, event) {
   } else if (hasDuplicates(cartId) == false) {
     its.innerHTML += `
 
-    <div id="${pointbox.id}"  class="flex inline-block gap-x-6">
-    <div class=" flex inline-block w-full justify-between mt-6">
-    <div class=" flex inline-block w-full gap-x-6">
-    <img src="${pointbox.image}" width="74">
-    <div>
-    <h3 id="title" class="text-sm">${pointbox.title}<h3/>
-    <p id="${pointbox.price}"  class="text-sm">${pointbox.price} KR.<p/>
-    </div>
-    </div>
-    
-
- 
-    <button onclick="b(${pointbox.id}, (cartId.findIndex(element => element == ${pointbox.id})), (cartPrice.findIndex(element => element == ${pointbox.price})))"><img src="./img/delete-bin-6-line.svg"></button>
- 
+    <div id="${pointbox.id}" class="flex inline-block gap-x-6">
+    <div class="flex inline-block w-full justify-between mt-6">
+      <div class="flex inline-block w-full gap-x-6">
+        <img src="${pointbox.image}" width="74" />
+        <div>
+          <h3 id="title" class="text-sm">${pointbox.title}</h3>
+          <p id="${pointbox.price}" class="text-sm">${pointbox.price} KR.</p>
+        </div>
+      </div>
+      <button onclick="b(${pointbox.id}, (cartId.findIndex(element => element == ${pointbox.id})), (cartPrice.findIndex(element => element == ${pointbox.price})))"><img src="./img/delete-bin-6-line.svg"></button>
     </div>
   </div>`;
   }
 
   var total = document.getElementById("total");
-
   totalPrice = cartPrice.map((i) => (x += i), (x = 0)).reverse()[0];
-
   total.innerHTML = Number(totalPrice.toFixed(2));
-
-console.log(cartPrice.findIndex(element => element == `${pointbox.price}`));
-
+  console.log(cartPrice.findIndex((element) => element == `${pointbox.price}`));
 }
 
-
-
 function b(v, t, d) {
-
-  let m = Number(
-    cartPrice
-      .splice(
-        d, 1
-      )
-      .join()
-  );
-
+  let m = Number(cartPrice.splice(d, 1).join());
   totalPrice = totalPrice - m;
   total.innerHTML = Number(totalPrice.toFixed(2));
   document.getElementById(v).remove();
-  cartId.splice(
-   t, 1
-  );
+  cartId.splice(t, 1);
   console.log(d);
-
- 
-
 }
