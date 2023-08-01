@@ -129,7 +129,7 @@ async function renderProdcuts() {
               </div>
           </div>
         
-          <button class="bg-gray-900 w-full hover:opacity-75 text-white text-sm font-bold py-2 px-4 rounded z-40" onclick="addToBasket(${point.id}, '${point.y}', ${point.z}, '${point.x}', event)">
+          <button class="bg-gray-900 w-full h-14 lg:h-10 hover:opacity-75 text-white text-sm font-bold py-2 px-4 rounded z-40" onclick="addToBasket(${point.id}, '${point.y}', ${point.z}, '${point.x}', event)">
           Add To Card
         </button>
   
